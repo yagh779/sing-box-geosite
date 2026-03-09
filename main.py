@@ -158,7 +158,15 @@ def parse_list_file(link, output_directory):
         # 使用 output_directory 拼接完整路径
         file_name = os.path.join(output_directory, f"{os.path.basename(link).split('.')[0]}.json")
         with open(file_name, 'w', encoding='utf-8') as output_file:
-            result_rules_str = json.dumps(sort_dict(result_rules), ensure_ascii=False, indent=2)
+            # begin gpt
+            sorted_rules = sort_dict(result_rules["rules"])
+            result_rules["rules"] = sorted_rules
+            result_rules_str = json.dumps(result_rules, ensure_ascii=False, indent=2)
+            # end gpt
+
+            # begin origin
+            # result_rules_str = json.dumps(sort_dict(result_rules), ensure_ascii=False, indent=2)
+            # end origin
             result_rules_str = result_rules_str.replace('\\\\', '\\')
             output_file.write(result_rules_str)
 
