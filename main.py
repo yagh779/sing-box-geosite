@@ -94,6 +94,8 @@ def parse_and_convert_to_dataframe(link):
                             address = address[1:]
                             if address.startswith('.'):
                                 address = address[1:]
+                                if address.startswith('*.'):
+                                    address = address[1:]
                         else:
                             pattern = 'DOMAIN'
                 else:
