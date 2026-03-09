@@ -1,8 +1,8 @@
 {
+  "version": 3,
   "rules": [
     {
       "domain_suffix": [
-        "*.movie",
         "080866.xyz",
         "214521.xyz",
         "252035.xyz",
@@ -181,6 +181,7 @@
         "minotv.cn",
         "miqk.cc",
         "moduapi.cc",
+        "movie",
         "mp4us.com",
         "muouso.fun",
         "mxvod.com",
@@ -330,6 +331,5 @@
         "zohopublic.com.cn"
       ]
     }
-  ],
-  "version": 3
+  ]
 }
