@@ -1,1 +1,2 @@
 https://raw.githubusercontent.com/Sfssup/mihomo-set/main/rule_set/direct.yaml
+https://static-file-global.353355.xyz/rules/cn-additional-list-clash.yaml
