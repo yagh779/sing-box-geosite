@@ -13,7 +13,7 @@ MAP_DICT = {'DOMAIN-SUFFIX': 'domain_suffix', 'HOST-SUFFIX': 'domain_suffix', 'h
             'DOMAIN-KEYWORD':'domain_keyword', 'HOST-KEYWORD': 'domain_keyword', 'host-keyword': 'domain_keyword', 'IP-CIDR': 'ip_cidr',
             'ip-cidr': 'ip_cidr', 'IP-CIDR6': 'ip_cidr', 
             'IP6-CIDR': 'ip_cidr','SRC-IP-CIDR': 'source_ip_cidr', 'GEOIP': 'geoip', 'DST-PORT': 'port',
-            'SRC-PORT': 'source_port', "URL-REGEX": "domain_regex", "DOMAIN-REGEX": "domain_regex"}
+            'SRC-PORT': 'source_port', "URL-REGEX": "domain_regex", "DOMAIN-REGEX": "domain_regex", "DOMAIN-WILDCARD": "domain_regex"}
 
 def read_yaml_from_url(url):
     headers = {'User-Agent': 'Mozilla/5.0'}
@@ -123,7 +123,8 @@ def sort_dict(obj):
     else:
         return obj
 
-def parse_list_file(link, output_directory):
+# def parse_list_file(link, output_directory):
+def parse_list_file(link, name, output_directory):
     try:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             results= list(executor.map(parse_and_convert_to_dataframe, [link]))  # 使用executor.map并行处理链接, 得到(df, rules)元组的列表
@@ -136,22 +137,11 @@ def parse_list_file(link, output_directory):
         df['pattern'] = df['pattern'].replace(MAP_DICT)  # 替换pattern为字典中的值
         os.makedirs(output_directory, exist_ok=True)  # 创建自定义文件夹
 
-        result_rules = {"version": 3, "rules": []}
-        domain_entries = []
+        result_rules = {"version": 3, "rules": [{}]}
+        rule_obj = result_rules["rules"][0]
+
         for pattern, addresses in df.groupby('pattern')['address'].apply(list).to_dict().items():
-            if pattern == 'domain_suffix':
-                rule_entry = {pattern: [address.strip() for address in addresses]}
-                result_rules["rules"].append(rule_entry)
-                # domain_entries.extend([address.strip() for address in addresses])  # 1.9以下的版本需要额外处理 domain_suffix
-            elif pattern == 'domain':
-                domain_entries.extend([address.strip() for address in addresses])
-            else:
-                rule_entry = {pattern: [address.strip() for address in addresses]}
-                result_rules["rules"].append(rule_entry)
-        # 删除 'domain_entries' 中的重复值
-        domain_entries = list(set(domain_entries))
-        if domain_entries:
-            result_rules["rules"].insert(0, {'domain': domain_entries})
+            rule_obj[pattern] = list(set([addr.strip() for addr in addresses]))
 
         # 处理逻辑规则
         """
@@ -160,13 +150,11 @@ def parse_list_file(link, output_directory):
         """
 
         # 使用 output_directory 拼接完整路径
-        file_name = os.path.join(output_directory, f"{os.path.basename(link).split('.')[0]}.json")
+        # file_name = os.path.join(output_directory, f"{os.path.basename(link).split('.')[0]}.json")
+        file_name = os.path.join(output_directory, f"{name}.json")
         with open(file_name, 'w', encoding='utf-8') as output_file:
-            # begin gpt
-            sorted_rules = sort_dict(result_rules["rules"])
-            result_rules["rules"] = sorted_rules
+            result_rules["rules"][0] = sort_dict(result_rules["rules"][0])
             result_rules_str = json.dumps(result_rules, ensure_ascii=False, indent=2)
-            # end gpt
 
             # begin origin
             # result_rules_str = json.dumps(sort_dict(result_rules), ensure_ascii=False, indent=2)
@@ -183,15 +171,31 @@ def parse_list_file(link, output_directory):
 
 # 读取 links.txt 中的每个链接并生成对应的 JSON 文件
 with open("../links.txt", 'r') as links_file:
-    links = links_file.read().splitlines()
+    lines = links_file.read().splitlines()
 
-links = [l for l in links if l.strip() and not l.strip().startswith("#")]
+# links = [l for l in links if l.strip() and not l.strip().startswith("#")]
+links = []
+for line in lines:
+    line = line.strip()
+    if not line or line.startswith("#"):
+        continue
+    parts = line.split(maxsplit=1)
+    if len(parts) == 1:
+        url = parts[0]
+        name = os.path.basename(url).split('.')[0]  # 兼容旧格式
+    else:
+        url, name = parts
+        name = os.path.splitext(name)[0]
+    links.append((url, name))
 
 output_dir = "./"
 result_file_names = []
 
-for link in links:
-    result_file_name = parse_list_file(link, output_directory=output_dir)
+# for link in links:
+#     result_file_name = parse_list_file(link, output_directory=output_dir)
+#     result_file_names.append(result_file_name)
+for url, name in links:
+    result_file_name = parse_list_file(url, name, output_directory=output_dir)
     result_file_names.append(result_file_name)
 
 # 打印生成的文件名

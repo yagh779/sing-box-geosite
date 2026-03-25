@@ -1,2 +1,25 @@
 https://raw.githubusercontent.com/Sfssup/mihomo-set/main/rule_set/direct.yaml
 https://static-file-global.353355.xyz/rules/cn-additional-list-clash.yaml
+https://ruleset.skk.moe/Clash/domainset/reject.txt domainset_reject
+https://ruleset.skk.moe/Clash/non_ip/reject.txt non_ip_reject
+https://ruleset.skk.moe/Clash/non_ip/reject-no-drop.txt
+https://ruleset.skk.moe/Clash/non_ip/reject-drop.txt
+https://ruleset.skk.moe/Clash/domainset/speedtest.txt
+https://ruleset.skk.moe/Clash/domainset/cdn.txt domainset_cdn
+https://ruleset.skk.moe/Clash/non_ip/cdn.txt non_ip_cdn
+https://ruleset.skk.moe/Clash/non_ip/stream.txt non_ip_stream
+https://ruleset.skk.moe/Clash/non_ip/telegram.txt non_ip_telegram
+https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt
+https://ruleset.skk.moe/Clash/domainset/download.txt domainset_download
+https://ruleset.skk.moe/Clash/non_ip/download.txt non_ip_download
+https://ruleset.skk.moe/Clash/non_ip/microsoft.txt
+https://ruleset.skk.moe/Clash/non_ip/ai.txt
+https://ruleset.skk.moe/Clash/non_ip/global.txt
+https://ruleset.skk.moe/Clash/non_ip/domestic.txt non_ip_domestic
+https://ruleset.skk.moe/Clash/non_ip/lan.txt non_ip_lan
+https://ruleset.skk.moe/Clash/ip/reject.txt ip_reject
+https://ruleset.skk.moe/Clash/ip/telegram.txt ip_telegram
+https://ruleset.skk.moe/Clash/ip/stream.txt ip_stream
+https://ruleset.skk.moe/Clash/ip/lan.txt ip_lan
+https://ruleset.skk.moe/Clash/ip/domestic.txt ip_domestic
+https://ruleset.skk.moe/Clash/ip/china_ip.txt
