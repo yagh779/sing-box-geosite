@@ -34,6 +34,7 @@
       ],
       "domain_regex": [
         "*-intake-*-datadoghq.com",
+        "*-intake.*.datadoghq.com",
         "*.fsvod?.com",
         "*.img.*.sendibm?.com",
         "*.kuaikan-cdn?.com",
