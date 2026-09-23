@@ -31,7 +31,7 @@
         "www.viayoo.com"
       ],
       "domain_regex": [
-        "*.qhimgs?.com"
+        "qhimgs?.com"
       ],
       "domain_suffix": [
         "10010.com",
