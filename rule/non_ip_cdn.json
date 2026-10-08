@@ -71,6 +71,7 @@
         "ocsp.*.amazontrust.com",
         "proxy-*.dailymotion.com",
         "rr?---??.ouo.si",
+        "rum-ingest.*.signalfx.com",
         "s3-*.figma.com",
         "s3.*.wasabisys.com",
         "s?.maxstream.org",
